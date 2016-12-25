@@ -10,8 +10,11 @@
     
 import sys
 from time import time
+from sklearn import tree
+from sklearn.metrics import accuracy_score
 sys.path.append("../tools/")
 from email_preprocess import preprocess
+
 
 
 ### features_train and features_test are the features for the training
@@ -25,6 +28,12 @@ features_train, features_test, labels_train, labels_test = preprocess()
 #########################################################
 ### your code goes here ###
 
+clf = tree.DecisionTreeClassifier(min_samples_split = 40)
+print(len(features_train[0]))
+clf = clf.fit(features_train, labels_train)
+outt = clf.predict(features_test)
+
+print(accuracy_score(labels_test, outt))
 
 #########################################################
 
