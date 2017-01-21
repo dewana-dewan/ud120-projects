@@ -17,14 +17,14 @@ from feature_format import featureFormat, targetFeatureSplit
 
 
 
-def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
+def Draw(lbl, pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
 
     ### plot each cluster with a different color--add more colors for
     ### drawing more than five clusters
     colors = ["b", "c", "k", "m", "g"]
-    for ii, pp in enumerate(pred):
-        plt.scatter(features[ii][0], features[ii][1], color = colors[pred[ii]])
+    for i in range(len(pred)):
+        plt.scatter(features[i][0], features[i][1], color = colors[lbl[i]])
 
     ### if you like, place red stars over points that are POIs (just for funsies)
     if mark_poi:
@@ -52,6 +52,8 @@ poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
+print(poi)
+print(finance_features)
 
 
 ### in the "clustering with 3 features" part of the mini-project,
@@ -65,12 +67,19 @@ plt.show()
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 
+from sklearn import cluster
+kmeans = cluster.KMeans(n_clusters=5).fit(finance_features)
+pred = kmeans.predict(finance_features)
+lbl = kmeans.labels_
+
+# print(pred)
+
 
 
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(lbl, pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
