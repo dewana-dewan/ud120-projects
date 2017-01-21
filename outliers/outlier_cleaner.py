@@ -18,7 +18,7 @@ def outlierCleaner(predictions, ages, net_worths):
         cleaned_data.append((ages[i], net_worths[i], abs(net_worths[i] - predictions[i])))
     ### your code goes here
     cleaned_data.sort(key = itemgetter(2))
-    print(cleaned_data)
+    # print(cleaned_data)
     cleaned_data = cleaned_data[:int(.9*len(cleaned_data))]  
      
     return cleaned_data
